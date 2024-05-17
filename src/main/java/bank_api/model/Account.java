@@ -26,7 +26,7 @@ public class Account{
     private BigDecimal balance;
 
     private BigDecimal initialDeposit;
-
+    
     @OneToOne(mappedBy = "account")
     private Client client;
 }
