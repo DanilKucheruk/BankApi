@@ -1,8 +1,0 @@
-server:
-    port: 8085
-spring:
-    datasource:
-        url: jdbc:postgresql://postgres/bank_api
-        username: postgres
-        password: 1234
-        driver-class-name: org.postgresql.Driver
