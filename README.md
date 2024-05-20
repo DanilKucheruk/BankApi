@@ -24,11 +24,11 @@
 
 ## Использование
 
-Для просмотра Swagger документации перейдите по пути 'http://localhost:8080/swagger-ui/index.html#/'
+Для просмотра Swagger документации перейдите по пути `http://localhost:8080/swagger-ui/index.html#/`
 
 Для использования развернутого REST Api достаточно совершать HTTP запросы к нему(например, через Postman).
 
-Регистрация пользователя: POST запрос по адерсу http://localhost:8085/api/registration. В теле запроса указать:
+Регистрация пользователя: POST запрос по адерсу `http://localhost:8085/api/registration`. В теле запроса указать:
 
 `
 {
