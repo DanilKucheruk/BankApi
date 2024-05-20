@@ -48,8 +48,8 @@
   "password": "secret",
   "initialDeposit": 1000.0
 }
-
 `
+
 Авторизация пользователя: POST запрос по адерсу http://localhost:8085/api/auth. В теле запроса указать:
 `{
   "login": "john.doe",
@@ -65,9 +65,12 @@
 	Пример 1: 'http://localhost:8085/api/clients/search?email=john.doe@example.com'
 	Пример 2: 'http://localhost:8085/api/clients/search?phone=777777'
 
+
 Удаление клиента: DELETE запрос по адерсу 'http://localhost:8085/api/clients/1'.
 
+
 Добавление мобильного телфона :  POST запрос по адерсу 'http://localhost:8085/api/clients/1/phones'.
+
 В теле запроса указать:
 '
 {
@@ -75,7 +78,10 @@
   "clientId": 2
   }
 '
+
+
 Удаление мобильного телфона :  DELETE запрос по адерсу 'http://localhost:8085/api/clients/1/phones/2'.
+
 
 Добавление email:  POST запрос по адерсу 'http://localhost:8085/api/clients/1/emails'.
 В теле запроса указать:
@@ -85,11 +91,16 @@
   "clientId": 2
   }
 '
+
+
 Удаление email:  DELETE запрос по адерсу 'http://localhost:8085/api/clients/1/emails/2'.
+
 
 Получить список аккаунтов: GET запрос по адерсу 'http://localhost:8085/api/accounts'.
 
+
 Перевод денег: POST запрос по адерсу 'http://localhost:8085/api/accounts/transfer?fromId={client1Id}&toId={client2Id}&amount={amount}'.
+
 
 Получить аккаунт по id: GET запрос по адерсу 'http://localhost:8085/api/accounts/{Id}'.
 
