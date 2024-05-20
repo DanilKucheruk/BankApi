@@ -1,4 +1,4 @@
-package bank_api.model;
+package bank_api.entity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Client{
+public class Client {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -42,7 +42,7 @@ public class Client{
         @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<Email> emails;
 
-        @Column(name ="password", nullable = false)
+        @Column(name = "password", nullable = false)
         private String password;
 
         @OneToOne(cascade = CascadeType.ALL)

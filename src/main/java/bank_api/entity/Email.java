@@ -1,4 +1,4 @@
-package bank_api.model;
+package bank_api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,19 +13,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "phones")
+@Table(name = "emails")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Phone {
+public class Email {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "phone_number", unique = true, nullable = false)
-    private String phoneNumber;
+    @Column(name = "email_address", unique = true, nullable = false)
+    private String emailAddress;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
 }

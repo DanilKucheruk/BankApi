@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  client-backend:
+    image: bankapi:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - SERVER_PORT= 8085
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/bankapi
+
+  postgres:
+    image: 'postgres:14.1'
+    ports:
+    - 5432:5432
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=0000'
+      - 'POSTGRES_DB=bankapi'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
