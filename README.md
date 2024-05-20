@@ -99,8 +99,8 @@
 Получить список аккаунтов: GET запрос по адерсу `http://localhost:8085/api/accounts`.
 
 
-Перевод денег: POST запрос по адерсу 'http://localhost:8085/api/accounts/transfer?fromId={client1Id}&toId={client2Id}&amount={amount}'.
+Перевод денег: POST запрос по адерсу `http://localhost:8085/api/accounts/transfer?fromId={client1Id}&toId={client2Id}&amount={amount}`.
 
 
-Получить аккаунт по id: GET запрос по адерсу 'http://localhost:8085/api/accounts/{Id}'.
+Получить аккаунт по id: GET запрос по адерсу `http://localhost:8085/api/accounts/{Id}`.
 
