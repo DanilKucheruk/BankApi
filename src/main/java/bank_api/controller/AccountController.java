@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,43 +38,37 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> getAccountById(@PathVariable Long id) {
+    public ResponseEntity<Account> getAccountById(@PathVariable Long id) throws ClientNotFoundException{
         LOGGER.info("GET /api/accounts/{} - Retrieving account with id {}", id, id);
-        try {
-            Account account = accountService.getAccountById(id);
-            return ResponseEntity.ok(account);
-        } catch (ClientNotFoundException e) {
-            LOGGER.error("GET /api/accounts/{} - Account not found", id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Account account = accountService.getAccountById(id);
+        return ResponseEntity.ok(account);
     }
 
     @PostMapping("/{id}/deposit")
-    public ResponseEntity<AccountDto> deposit(@PathVariable Long id, @RequestParam BigDecimal amount) {
+    public ResponseEntity<AccountDto> deposit(@PathVariable Long id, @RequestParam BigDecimal amount) throws IllegalArgumentException {
         LOGGER.info("POST /api/accounts/{}/deposit - Depositing {} into account with id {}", id, amount, id);
-        try {
-            AccountDto account = accountService.deposit(id, amount);
-            return ResponseEntity.ok(account);
-        } catch (IllegalArgumentException e) {
-            LOGGER.error("POST /api/accounts/{}/deposit - Invalid deposit amount", id);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+        AccountDto account = accountService.deposit(id, amount);
+        return ResponseEntity.ok(account);
     }
 
     @PostMapping("/transfer")
     public ResponseEntity<AccountDto> transfer(@RequestParam Long fromId, @RequestParam Long toId,
-            @RequestParam BigDecimal amount) {
+            @RequestParam BigDecimal amount) throws IllegalArgumentException, BalanceCannotBeNegativeException, ClientNotFoundException {
         LOGGER.info("POST /api/accounts/transfer - Transferring {} from account with id {} to account with id {}",
                 amount, fromId, toId);
-        try {
-            AccountDto account = accountService.transfer(fromId, toId, amount);
-            return ResponseEntity.ok(account);
-        } catch (IllegalArgumentException | BalanceCannotBeNegativeException e) {
-            LOGGER.error("POST /api/accounts/transfer - Invalid transfer request");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (ClientNotFoundException e) {
-            LOGGER.error("POST /api/accounts/transfer - Account not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        AccountDto account = accountService.transfer(fromId, toId, amount);
+        return ResponseEntity.ok(account);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class, BalanceCannotBeNegativeException.class})
+    public ResponseEntity<String> handleBadRequest(Exception e) {
+        LOGGER.error("Invalid request", e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+    }
+
+    @ExceptionHandler(ClientNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(Exception e) {
+        LOGGER.error("Account not found", e);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
     }
 }

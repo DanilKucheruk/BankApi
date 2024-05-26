@@ -17,8 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,14 +91,15 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<?> deleteClient(@PathVariable Long id) throws ClientNotFoundException {
         logger.info("DELETE /api/clients/{} - Deleting client with id {}", id, id);
-        if (clientService.delete(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-            logger.error("DELETE /api/clients/{} - Client not found", id);
-            throw new ClientNotFoundException("Client not found with id: " + id);
-        }
+        return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(ClientNotFoundException.class)
+    public ResponseEntity<String> handlerClientNotFound(Exception e){
+        logger.error("Account not found", e);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
     }
 
 }
