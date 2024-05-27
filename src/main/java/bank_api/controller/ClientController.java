@@ -59,7 +59,7 @@ public class ClientController {
     }
 
     @PostMapping("/{clientId}/phones")
-    public ResponseEntity<?> addPhone(@PathVariable Long clientId, @RequestBody PhoneDto phoneDto) {
+    public ResponseEntity<?> addPhone(@PathVariable Long clientId, @RequestBody @Valid PhoneDto phoneDto) {
         logger.info("POST /api/clients/{}/phones - Adding phone for client with id {}", clientId, clientId);
         phoneDto.setClientId(clientId);
         phoneService.addPhone(phoneDto);
@@ -75,7 +75,7 @@ public class ClientController {
     }
 
     @PostMapping("/{clientId}/emails")
-    public ResponseEntity<?> addEmail(@PathVariable Long clientId, @RequestBody EmailDto emailDto) {
+    public ResponseEntity<?> addEmail(@PathVariable Long clientId, @RequestBody @Valid EmailDto emailDto) {
         logger.info("POST /api/clients/{}/emails - Adding email for client with id {}", clientId, clientId);
         emailDto.setClientId(clientId);
         emailService.addEmail(emailDto);
